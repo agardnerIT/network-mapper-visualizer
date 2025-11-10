@@ -1,0 +1,178 @@
+# This is demo data and should be replaced with your own data
+# ./otterize network-mapper export -n default > data.yaml
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: accounting
+  namespace: default
+spec:
+  workload:
+    name: accounting
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: kafka
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: cart
+  namespace: default
+spec:
+  workload:
+    name: cart
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: flagd
+        kind: Deployment
+    - kubernetes:
+        name: valkey-cart
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: checkout
+  namespace: default
+spec:
+  workload:
+    name: checkout
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: cart
+        kind: Deployment
+    - kubernetes:
+        name: flagd
+        kind: Deployment
+    - kubernetes:
+        name: kafka
+        kind: Deployment
+    - kubernetes:
+        name: product-catalog
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: fraud-detection
+  namespace: default
+spec:
+  workload:
+    name: fraud-detection
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: flagd
+        kind: Deployment
+    - kubernetes:
+        name: kafka
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  workload:
+    name: frontend
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: ad
+        kind: Deployment
+    - kubernetes:
+        name: cart
+        kind: Deployment
+    - kubernetes:
+        name: checkout
+        kind: Deployment
+    - service:
+        name: kubernetes
+    - kubernetes:
+        name: product-catalog
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: frontend-proxy
+  namespace: default
+spec:
+  workload:
+    name: frontend-proxy
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: flagd
+        kind: Deployment
+    - kubernetes:
+        name: frontend
+        kind: Deployment
+    - kubernetes:
+        name: image-provider
+        kind: Deployment
+    - kubernetes:
+        name: load-generator
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: kafka
+  namespace: default
+spec:
+  workload:
+    name: kafka
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: kafka
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: load-generator
+  namespace: default
+spec:
+  workload:
+    name: load-generator
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: flagd
+        kind: Deployment
+    - kubernetes:
+        name: frontend-proxy
+        kind: Deployment
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: payment
+  namespace: default
+spec:
+  workload:
+    name: payment
+    kind: Deployment
+  targets:
+    - service:
+        name: kubernetes
+---
+apiVersion: k8s.otterize.com/v2beta1
+kind: ClientIntents
+metadata:
+  name: product-catalog
+  namespace: default
+spec:
+  workload:
+    name: product-catalog
+    kind: Deployment
+  targets:
+    - kubernetes:
+        name: flagd
+        kind: Deployment
